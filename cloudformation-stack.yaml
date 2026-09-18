@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Simple CloudFormation stack for the AWS High Availability Web Application project.
+  Creates a CloudWatch Alarm that monitors CPU utilization on an application server
+  and triggers when usage stays above 70% for 5 minutes.
+
+Parameters:
+  AppInstanceId:
+    Type: String
+    Description: "Instance ID of app-server-1 (e.g. i-xxxxxxxxxxxxxxxxx)"
+
+Resources:
+  ProjectAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: cf-app-cpu-alarm
+      AlarmDescription: "CPU alarm created via CloudFormation for the HA Web App project"
+      Namespace: AWS/EC2
+      MetricName: CPUUtilization
+      Dimensions:
+        - Name: InstanceId
+          Value: !Ref AppInstanceId
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 70
+      ComparisonOperator: GreaterThanThreshold
+
+Outputs:
+  AlarmName:
+    Description: "Name of the CloudWatch Alarm created by this stack"
+    Value: !Ref ProjectAlarm
