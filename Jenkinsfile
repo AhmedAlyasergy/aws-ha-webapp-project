@@ -22,10 +22,13 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                echo 'Test stage completed'
-            }
-        }
+    steps {
+        echo 'Running tests...'
+        sh 'test -f cloudformation-stack.yaml'
+        sh 'test -f user-data.sh'
+        echo 'Required project files exist.'
+    }
+}
     }
 
     post {
