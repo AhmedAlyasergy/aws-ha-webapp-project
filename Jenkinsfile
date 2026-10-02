@@ -11,7 +11,7 @@ pipeline {
         stage('Validate') {
             steps {
                 echo 'Validating AWS HA Web App project...'
-                bat 'dir'
+                sh 'ls -la'
             }
         }
 
